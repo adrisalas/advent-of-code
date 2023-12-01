@@ -46,8 +46,8 @@ problem-solving skills, covering a variety of programming languages.
 <li>Day05 ⭐⭐</li>
 <li>Day06 ⭐⭐</li>
 <li>Day07 ⭐⭐</li>
-<li>Day08</li>
-<li>Day08</li>
+<li>Day08 ⭐⭐</li>
+<li>Day09</li>
 <li>Day10</li>
 <li>Day11</li>
 <li>Day12</li>
