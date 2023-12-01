@@ -1,25 +1,78 @@
-# aoc-2023-in-kotlin
+# Advent of Code in Kotlin
 
-Welcome to the Advent of Code[^aoc] Kotlin project created by [adrisalas][github] using the [Advent of Code Kotlin Template][template] delivered by JetBrains.
+[Advent of Code](https://adventofcode.com/) is an annual online programming competition where participants
+solve a series of daily coding challenges in December. Each challenge is designed to test algorithmic and
+problem-solving skills, covering a variety of programming languages.
 
-In this repository, adrisalas is about to provide solutions for the puzzles using [Kotlin][kotlin] language.
+#### 2023 Progress:
 
-If you're stuck with Kotlin-specific questions or anything related to this template, check out the following resources:
+- Day01 ⭐⭐
+- Day02
+- Day03
+- Day04
+- Day05
+- Day06
+- Day07
+- Day08
+- Day09
+- Day10
+- Day11
+- Day12
+- Day13
+- Day14
+- Day15
+- Day16
+- Day17
+- Day18
+- Day19
+- Day20
+- Day21
+- Day22
+- Day23
+- Day24
+- Day25
 
-- [Kotlin docs][docs]
-- [Kotlin Slack][slack]
-- Template [issue tracker][issues]
+<hr>
+
+#### Previous years:
+
+<details>
+<summary>2021 Progress <i>(click to toggle)</i></summary>
+<ul> 
+<li>Day01 ⭐⭐</li>
+<li>Day02 ⭐⭐</li>
+<li>Day03 ⭐⭐</li>
+<li>Day04 ⭐⭐</li>
+<li>Day05 ⭐⭐</li>
+<li>Day06 ⭐⭐</li>
+<li>Day07 ⭐⭐</li>
+<li>Day08</li>
+<li>Day08</li>
+<li>Day10</li>
+<li>Day11</li>
+<li>Day12</li>
+<li>Day13</li>
+<li>Day14</li>
+<li>Day15</li>
+<li>Day16</li>
+<li>Day17</li>
+<li>Day18</li>
+<li>Day19</li>
+<li>Day20</li>
+<li>Day21</li>
+<li>Day22</li>
+<li>Day23</li>
+<li>Day24</li>
+<li>Day25</li>
+
+</ul>
+</details>
 
 
-[^aoc]:
-    [Advent of Code][aoc] – An annual event of Christmas-oriented programming challenges started December 2015.
-    Every year since then, beginning on the first day of December, a programming puzzle is published every day for twenty-five days.
-    You can solve the puzzle and provide an answer using the language of your choice.
 
-[aoc]: https://adventofcode.com
-[docs]: https://kotlinlang.org/docs/home.html
-[github]: https://github.com/adrisalas
-[issues]: https://github.com/kotlin-hands-on/advent-of-code-kotlin-template/issues
-[kotlin]: https://kotlinlang.org
-[slack]: https://surveys.jetbrains.com/s3/kotlin-slack-sign-up
-[template]: https://github.com/kotlin-hands-on/advent-of-code-kotlin-template
+
+
+
+
+
+
