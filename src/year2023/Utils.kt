@@ -1,10 +1,12 @@
+package year2023
+
 import java.math.BigInteger
 import java.security.MessageDigest
 import kotlin.io.path.Path
 import kotlin.io.path.readLines
 
 fun readInput(name: String): List<String> {
-    return Path("src/$name.txt").readLines()
+    return Path("src/year2023/$name.txt").readLines()
 }
 
 fun String.md5(): String {

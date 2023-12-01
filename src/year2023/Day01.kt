@@ -1,3 +1,5 @@
+package year2023
+
 private fun part1(input: List<String>): Int {
     return input.sumOf { line ->
         val results = "[0-9]".toRegex().findAll(line)
