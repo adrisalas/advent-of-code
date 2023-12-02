@@ -7,7 +7,7 @@ problem-solving skills, covering a variety of programming languages.
 #### 2023 Progress:
 
 - Day01 ⭐⭐
-- Day02
+- Day02 ⭐⭐
 - Day03
 - Day04
 - Day05
