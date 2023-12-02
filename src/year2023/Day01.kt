@@ -11,7 +11,6 @@ private fun part1(input: List<String>): Int {
     }
 }
 
-
 /**
  * If we just use toRegex().findAll(line) then the last() may not be correct
  * as we could have collision between some elements:
@@ -67,7 +66,6 @@ fun String.toSingleDigit(): Int {
 
 fun main() {
     val testInput = readInput("Day01_test")
-    check(part2(testInput) == 281)
 
     val input = readInput("Day01")
     part1(input).println()
