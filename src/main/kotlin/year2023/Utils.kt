@@ -6,7 +6,7 @@ import kotlin.io.path.Path
 import kotlin.io.path.readLines
 
 fun readInput(name: String): List<String> {
-    return Path("src/year2023/$name.txt").readLines()
+    return Path("src/main/resources/year2023/$name.txt").readLines()
 }
 
 fun String.md5(): String {

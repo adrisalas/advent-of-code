@@ -65,8 +65,6 @@ fun String.toSingleDigit(): Int {
 }
 
 fun main() {
-    val testInput = readInput("Day01_test")
-
     val input = readInput("Day01")
     part1(input).println()
     part2(input).println()

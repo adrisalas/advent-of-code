@@ -1,7 +1,6 @@
-rootProject.name = "aoc-2023-in-kotlin"
+rootProject.name = "advent-of-code-kotlin"
 
-dependencyResolutionManagement {
-    repositories {
-        mavenCentral()
-    }
+plugins {
+    // Apply the foojay-resolver plugin to allow automatic download of JDKs
+    id("org.gradle.toolchains.foojay-resolver-convention") version "0.7.0"
 }

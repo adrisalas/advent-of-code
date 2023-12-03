@@ -7,7 +7,7 @@ import java.security.MessageDigest
 /**
  * Reads lines from the given input txt file.
  */
-fun readInput(name: String) = File("src/year2021/", "$name.txt").readLines()
+fun readInput(name: String) = File("src/main/resources/year2021/$name.txt", "$name.txt").readLines()
 
 /**
  * Converts string to md5 hash.
