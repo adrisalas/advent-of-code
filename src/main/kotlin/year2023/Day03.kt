@@ -7,10 +7,9 @@ private fun part1(input: List<String>): Int {
 
     return matrix.flatMapIndexed { rowIndex, row ->
         row.flatMapIndexed { columnIndex, cell ->
-            if (!cell.isDigit() && cell != '.') {
-                findAdjacentPointsTo(matrix, rowIndex, columnIndex)
-            } else {
-                setOf()
+            when {
+                !cell.isDigit() && cell != '.' -> findAdjacentPointsTo(matrix, rowIndex, columnIndex)
+                else -> setOf()
             }
         }
     }.toSet().sumOf { it.value }
