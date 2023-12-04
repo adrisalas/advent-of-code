@@ -6,10 +6,10 @@ problem-solving skills, covering a variety of programming languages.
 
 #### 2023 Progress:
 
-- Day01 ⭐⭐
-- Day02 ⭐⭐
-- Day03 ⭐⭐
-- Day04 ⭐⭐
+- [Day01](https://github.com/adrisalas/advent-of-code-kotlin/blob/main/src/main/kotlin/year2023/Day01.kt) ⭐⭐
+- [Day02](https://github.com/adrisalas/advent-of-code-kotlin/blob/main/src/main/kotlin/year2023/Day02.kt) ⭐⭐
+- [Day03](https://github.com/adrisalas/advent-of-code-kotlin/blob/main/src/main/kotlin/year2023/Day03.kt) ⭐⭐
+- [Day04](https://github.com/adrisalas/advent-of-code-kotlin/blob/main/src/main/kotlin/year2023/Day04.kt) ⭐⭐
 - Day05
 - Day06
 - Day07
@@ -39,14 +39,14 @@ problem-solving skills, covering a variety of programming languages.
 <details>
 <summary>2021 Progress <i>(click to toggle)</i></summary>
 <ul> 
-<li>Day01 ⭐⭐</li>
-<li>Day02 ⭐⭐</li>
-<li>Day03 ⭐⭐</li>
-<li>Day04 ⭐⭐</li>
-<li>Day05 ⭐⭐</li>
-<li>Day06 ⭐⭐</li>
-<li>Day07 ⭐⭐</li>
-<li>Day08 ⭐⭐</li>
+<li><a href="https://github.com/adrisalas/advent-of-code-kotlin/blob/main/src/main/kotlin/year2021/Day01.kt">Day01</a> ⭐⭐</li>
+<li><a href="https://github.com/adrisalas/advent-of-code-kotlin/blob/main/src/main/kotlin/year2021/Day02.kt">Day02</a> ⭐⭐</li>
+<li><a href="https://github.com/adrisalas/advent-of-code-kotlin/blob/main/src/main/kotlin/year2021/Day03.kt">Day03</a> ⭐⭐</li>
+<li><a href="https://github.com/adrisalas/advent-of-code-kotlin/blob/main/src/main/kotlin/year2021/Day04.kt">Day04</a> ⭐⭐</li>
+<li><a href="https://github.com/adrisalas/advent-of-code-kotlin/blob/main/src/main/kotlin/year2021/Day05.kt">Day05</a> ⭐⭐</li>
+<li><a href="https://github.com/adrisalas/advent-of-code-kotlin/blob/main/src/main/kotlin/year2021/Day06.kt">Day06</a> ⭐⭐</li>
+<li><a href="https://github.com/adrisalas/advent-of-code-kotlin/blob/main/src/main/kotlin/year2021/Day07.kt">Day07</a> ⭐⭐</li>
+<li><a href="https://github.com/adrisalas/advent-of-code-kotlin/blob/main/src/main/kotlin/year2021/Day08.kt">Day08</a> ⭐⭐</li>
 <li>Day09</li>
 <li>Day10</li>
 <li>Day11</li>
