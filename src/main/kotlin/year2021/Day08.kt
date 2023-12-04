@@ -32,10 +32,7 @@ private fun part2(input: List<String>): Int {
         val signal = line.first()
         val output = line.last()
 
-        return@map Pair(
-            first = signal.split(" "),
-            second = output.split(" ")
-        )
+        Pair(first = signal.split(" "), second = output.split(" "))
     }
     return lines.sumOf { (signal, output) ->
         translateConfiguration(signal, output)

@@ -10,32 +10,29 @@ fun main() {
 
 object Day04 {
     fun part1(input: List<String>): Int {
+        return input.sumOf { line ->
+            val (_, numbers) = line.split(":")
+            val (winningNumbers, myNumbers) = numbers.split("|")
 
-        return input
-            .map { line ->
-                val (_, numbers) = line.split(":")
-                val (winningNumbers, myNumbers) = numbers.split("|")
+            val setWinningNumbers = winningNumbers
+                .split(" ")
+                .filter { it != "" && it != " " }
+                .map { it.trim().toInt() }
+                .toSet()
 
-                val setWinningNumbers = winningNumbers
-                    .split(" ")
-                    .filter { it != "" && it != " " }
-                    .map { it.trim().toInt() }
-                    .toSet()
+            val howManyMatches = myNumbers
+                .split(" ")
+                .filter { it != "" && it != " " }
+                .map { it.trim().toInt() }
+                .count { setWinningNumbers.contains(it) }
 
-                val howManyMatches = myNumbers
-                    .split(" ")
-                    .filter { it != "" && it != " " }
-                    .map { it.trim().toInt() }
-                    .count { setWinningNumbers.contains(it) }
+            if (howManyMatches == 0) {
+                0.0
+            } else {
+                2.0.pow(howManyMatches - 1)
+            }
 
-                if (howManyMatches == 0) {
-                    return@map 0.0
-                } else {
-                    return@map 2.0.pow(howManyMatches - 1)
-                }
-
-            }.sum()
-            .toInt()
+        }.toInt()
     }
 
     fun part2(input: List<String>): Long {

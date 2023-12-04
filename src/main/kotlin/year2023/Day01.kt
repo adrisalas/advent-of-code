@@ -14,7 +14,7 @@ object Day01 {
             val firstDigit = results.first().value
             val lastDigit = results.last().value
 
-            return@sumOf "$firstDigit$lastDigit".toInt()
+            "$firstDigit$lastDigit".toInt()
         }
     }
 
@@ -37,7 +37,7 @@ object Day01 {
             val firstDigit = regex.firstMatch(line)?.toSingleDigit() ?: 0
             val lastDigit = regex.lastMatch(line)?.toSingleDigit() ?: 0
 
-            return@sumOf "$firstDigit$lastDigit".toInt()
+            "$firstDigit$lastDigit".toInt()
         }
     }
 

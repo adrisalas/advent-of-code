@@ -15,8 +15,7 @@ object Day02 {
     fun part1(input: List<String>): Int {
         return input
             .filter { game ->
-                return@filter game
-                    .split(";")
+                game.split(";")
                     .all { isValid(it) }
             }
             .sumOf { extractGameId(it) }
