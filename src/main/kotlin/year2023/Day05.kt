@@ -6,6 +6,8 @@ fun main() {
     Day05.part2(input).println()
 }
 
+private typealias SeedRange = Pair<Long, Long>
+
 object Day05 {
 
     fun part1(input: List<String>): Long {
@@ -172,12 +174,13 @@ object Day05 {
         rangedSeeds = temperatureToHumidity.decode(rangedSeeds)
         rangedSeeds = humidityToLocation.decode(rangedSeeds)
 
-        return rangedSeeds.minOfOrNull { it.first } ?: 46
+        return rangedSeeds.minOfOrNull { it.first } ?: -1L
     }
 
 
-    private fun Set<Decoder>.decode(rangedSeeds: List<Pair<Long, Long>>): List<Pair<Long, Long>> {
-        val pairs = mutableListOf<Pair<Long, Long>>()
+    private fun Set<Decoder>.decode(rangedSeeds: List<SeedRange>): List<SeedRange> {
+        val consumedSeeds = mutableListOf<SeedRange>()
+        val newSeeds = mutableListOf<SeedRange>()
         for (decoder in this) {
             val (from, quantity, _) = decoder
             for (range in rangedSeeds) {
@@ -186,10 +189,85 @@ object Day05 {
                 if (intersectionMin > intersectionMax) {
                     continue
                 }
-                pairs.add(Pair(decoder.decode(intersectionMin), decoder.decode(intersectionMax)))
+                val consumed = Pair(intersectionMin, intersectionMax)
+                val newSeed = Pair(decoder.decode(intersectionMin), decoder.decode(intersectionMax))
+                //println("$consumed -> $newSeed")
+                consumedSeeds.add(consumed)
+                newSeeds.add(newSeed)
             }
         }
-        return pairs
+
+        val sanitizedConsumedSeeds = consumedSeeds.distinct().sanitizeRanges()
+        val sanitizedRangedSeeds = rangedSeeds.sanitizeRanges()
+        val nonConsumedSeeds = sanitizedRangedSeeds.removeRanges(sanitizedConsumedSeeds)
+        //nonConsumedSeeds.forEach { println(it) }
+        //println("")
+        return (nonConsumedSeeds + newSeeds).sanitizeRanges()
+    }
+
+    fun List<SeedRange>.removeRanges(toRemove: List<SeedRange>): List<SeedRange> {
+        val result = this.toMutableList()
+
+        var pivot1 = 0
+        var pivot2 = 0
+
+        while (pivot1 < result.size && pivot2 < toRemove.size) {
+            val range1 = result[pivot1]
+            val range2 = toRemove[pivot2]
+
+            if (range1.second < range2.first) {
+                pivot1++
+            } else if (range1.first > range2.second) {
+                pivot2++
+            } else if (range1.first < range2.first && range1.second <= range2.second) {
+                // range 1 has a remaining part at left
+                result.removeAt(pivot1)
+                result.add(pivot1, Pair(range1.first, range2.first - 1))
+                pivot1++
+            } else if (range1.first >= range2.first && range1.second <= range2.second) {
+                //range1 is fully contained in range2
+                result.removeAt(pivot1)
+            } else if (range1.first >= range2.first && range1.second > range2.second) {
+                // range 1 has a remaining part at right
+                result.removeAt(pivot1)
+                result.add(pivot1, Pair(range2.second + 1, range1.second))
+                pivot2++
+            } else {
+                //range 1 has a remaining part at left and right
+                result.removeAt(pivot1)
+                result.add(pivot1, Pair(range1.first, range2.first - 1))
+                result.add(pivot1 + 1, Pair(range2.second + 1, range1.second))
+                pivot2++
+            }
+        }
+
+        return result
+    }
+
+    fun List<SeedRange>.sanitizeRanges(): List<SeedRange> {
+        if (this.isEmpty()) {
+            return emptyList()
+        }
+
+        val sortedRanges = this.sortedBy { it.first }
+
+        val result = mutableListOf<SeedRange>()
+        var currentRange = sortedRanges[0]
+
+        for (i in 1 until sortedRanges.size) {
+            val nextRange = sortedRanges[i]
+
+            currentRange = if (currentRange.second >= (nextRange.first - 1)) {
+                Pair(currentRange.first, maxOf(currentRange.second, nextRange.second))
+            } else {
+                result.add(currentRange)
+                nextRange
+            }
+        }
+
+        result.add(currentRange)
+
+        return result
     }
 }
 
