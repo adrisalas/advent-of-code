@@ -1,113 +1,90 @@
 package year2023
 
 fun main() {
-    val input = readInput("Day05")
+    val input = readInput2("Day05")
     Day05.part1(input).println()
     Day05.part2(input).println()
 }
 
 private typealias SeedRange = Pair<Long, Long>
+private typealias Decoder = Set<RangeDecoder>
+private typealias Decoders = List<Decoder>
+
+private data class RangeDecoder(val from: Long, val quantity: Long, val to: Long)
 
 object Day05 {
+    private val NEW_LINE_REGEX = "\r?\n".toRegex()
+    private val DOUBLE_NEW_LINE_REGEX = "(\r)?\n(\r)?\n".toRegex()
 
-    fun part1(input: List<String>): Long {
-        val seeds = input[0]
+    fun part1(input: String): Long {
+        val inputChunks = input.split(DOUBLE_NEW_LINE_REGEX)
+        val seeds = inputChunks[0]
             .split(":")[1]
             .split(" ")
             .filter { it.isNotBlank() }
             .map { it.toLong() }
 
-        val seedsToSoil = mutableSetOf<Decoder>()
-        val soilsToFertilizer = mutableSetOf<Decoder>()
-        val fertilizerToWater = mutableSetOf<Decoder>()
-        val waterToLight = mutableSetOf<Decoder>()
-        val lightToTemperature = mutableSetOf<Decoder>()
-        val temperatureToHumidity = mutableSetOf<Decoder>()
-        val humidityToLocation = mutableSetOf<Decoder>()
-
-        var mode = MODE.SEEDS_TO_SOIL
-
-        var i = 2
-        while (i < input.size - 1) {
-            i++
-            val line = input[i].trim()
-
-            if (line.isBlank()) continue
-            if (line in SPECIAL_LINES) {
-                mode = line.extractMode()
-                continue
-            }
-
-            val (c1, c2, c3) = line.split(" ")
-            val decoder = Decoder(
-                from = c2.toLong(),
-                to = c1.toLong(),
-                quantity = c3.toLong()
-            )
-
-            when (mode) {
-                MODE.SEEDS_TO_SOIL -> seedsToSoil.add(decoder)
-                MODE.SOIL_TO_FERTILIZER -> soilsToFertilizer.add(decoder)
-                MODE.FERTILIZER_TO_WATER -> fertilizerToWater.add(decoder)
-                MODE.WATER_TO_LIGHT -> waterToLight.add(decoder)
-                MODE.LIGHT_TO_TEMPERATURE -> lightToTemperature.add(decoder)
-                MODE.TEMPERATURE_TO_HUMIDITY -> temperatureToHumidity.add(decoder)
-                MODE.HUMIDITY_TO_LOCATION -> humidityToLocation.add(decoder)
-            }
-        }
+        val decoders = listOf(
+            buildDecoder(inputChunks[1].split(NEW_LINE_REGEX)),
+            buildDecoder(inputChunks[2].split(NEW_LINE_REGEX)),
+            buildDecoder(inputChunks[3].split(NEW_LINE_REGEX)),
+            buildDecoder(inputChunks[4].split(NEW_LINE_REGEX)),
+            buildDecoder(inputChunks[5].split(NEW_LINE_REGEX)),
+            buildDecoder(inputChunks[6].split(NEW_LINE_REGEX)),
+            buildDecoder(inputChunks[7].split(NEW_LINE_REGEX))
+        )
 
         return seeds
             .asSequence()
-            .map { seedsToSoil.decode(it) }
-            .map { soilsToFertilizer.decode(it) }
-            .map { fertilizerToWater.decode(it) }
-            .map { waterToLight.decode(it) }
-            .map { lightToTemperature.decode(it) }
-            .map { temperatureToHumidity.decode(it) }
-            .map { humidityToLocation.decode(it) }
+            .map { decoders.decode(it) }
             .min()
     }
 
-    private val SPECIAL_LINES = listOf(
-        "seed-to-soil map:",
-        "soil-to-fertilizer map:",
-        "fertilizer-to-water map:",
-        "water-to-light map:",
-        "light-to-temperature map:",
-        "temperature-to-humidity map:",
-        "humidity-to-location map:"
-    )
+    fun part2(input: String): Long {
+        val inputChunks = input.split(DOUBLE_NEW_LINE_REGEX)
+        val rangedSeeds = inputChunks[0]
+            .split(":")[1]
+            .split(" ")
+            .filter { it.isNotBlank() }
+            .map { it.toLong() }
+            .chunked(2)
+            .map { Pair(it[0], it[0] + it[1]) }
 
-    private enum class MODE {
-        SEEDS_TO_SOIL,
-        SOIL_TO_FERTILIZER,
-        FERTILIZER_TO_WATER,
-        WATER_TO_LIGHT,
-        LIGHT_TO_TEMPERATURE,
-        TEMPERATURE_TO_HUMIDITY,
-        HUMIDITY_TO_LOCATION
+        val decoders = listOf(
+            buildDecoder(inputChunks[1].split(NEW_LINE_REGEX)),
+            buildDecoder(inputChunks[2].split(NEW_LINE_REGEX)),
+            buildDecoder(inputChunks[3].split(NEW_LINE_REGEX)),
+            buildDecoder(inputChunks[4].split(NEW_LINE_REGEX)),
+            buildDecoder(inputChunks[5].split(NEW_LINE_REGEX)),
+            buildDecoder(inputChunks[6].split(NEW_LINE_REGEX)),
+            buildDecoder(inputChunks[7].split(NEW_LINE_REGEX))
+        )
+
+        return decoders
+            .decode(rangedSeeds)
+            .minOfOrNull { it.first }
+            ?: -1L
     }
 
-    private fun String.extractMode(): MODE {
-        return when (this) {
-            SPECIAL_LINES[0] -> MODE.SEEDS_TO_SOIL
-            SPECIAL_LINES[1] -> MODE.SOIL_TO_FERTILIZER
-            SPECIAL_LINES[2] -> MODE.FERTILIZER_TO_WATER
-            SPECIAL_LINES[3] -> MODE.WATER_TO_LIGHT
-            SPECIAL_LINES[4] -> MODE.LIGHT_TO_TEMPERATURE
-            SPECIAL_LINES[5] -> MODE.TEMPERATURE_TO_HUMIDITY
-            SPECIAL_LINES[6] -> MODE.HUMIDITY_TO_LOCATION
-            else -> error("Bad input")
-        }
+    private fun buildDecoder(lines: List<String>): Set<RangeDecoder> {
+        return lines
+            .drop(1)
+            .map {
+                val (a, b, c) = it.split(" ")
+                RangeDecoder(
+                    to = a.toLong(),
+                    from = b.toLong(),
+                    quantity = c.toLong()
+                )
+            }
+            .toSet()
     }
 
-    private data class Decoder(val from: Long, val quantity: Long, val to: Long)
-
-    private fun Decoder.decode(value: Long): Long {
+    private fun RangeDecoder.decode(value: Long): Long {
         return to + value - from
     }
 
-    private fun Set<Decoder>.decode(value: Long): Long {
+    private fun Decoder.decode(value: Long): Long {
         return this
             .firstOrNull {
                 val (from, quantity, _) = it
@@ -118,71 +95,23 @@ object Day05 {
             ?: value
     }
 
-    fun part2(input: List<String>): Long {
-        var rangedSeeds = input[0]
-            .split(":")[1]
-            .split(" ")
-            .filter { it.isNotBlank() }
-            .map { it.toLong() }
-            .chunked(2)
-            .map { Pair(it[0], it[0] + it[1]) }
-
-        val seedsToSoil = mutableSetOf<Decoder>()
-        val soilsToFertilizer = mutableSetOf<Decoder>()
-        val fertilizerToWater = mutableSetOf<Decoder>()
-        val waterToLight = mutableSetOf<Decoder>()
-        val lightToTemperature = mutableSetOf<Decoder>()
-        val temperatureToHumidity = mutableSetOf<Decoder>()
-        val humidityToLocation = mutableSetOf<Decoder>()
-
-        var mode = MODE.SEEDS_TO_SOIL
-
-        var i = 2
-        while (i < input.size - 1) {
-            i++
-            val line = input[i].trim()
-
-            if (line.isBlank()) continue
-            if (line in SPECIAL_LINES) {
-                mode = line.extractMode()
-                continue
-            }
-
-            val (c1, c2, c3) = line.split(" ")
-            val decoder = Decoder(
-                from = c2.toLong(),
-                to = c1.toLong(),
-                quantity = c3.toLong()
-            )
-
-            when (mode) {
-                MODE.SEEDS_TO_SOIL -> seedsToSoil.add(decoder)
-                MODE.SOIL_TO_FERTILIZER -> soilsToFertilizer.add(decoder)
-                MODE.FERTILIZER_TO_WATER -> fertilizerToWater.add(decoder)
-                MODE.WATER_TO_LIGHT -> waterToLight.add(decoder)
-                MODE.LIGHT_TO_TEMPERATURE -> lightToTemperature.add(decoder)
-                MODE.TEMPERATURE_TO_HUMIDITY -> temperatureToHumidity.add(decoder)
-                MODE.HUMIDITY_TO_LOCATION -> humidityToLocation.add(decoder)
-            }
+    private fun Decoders.decode(value: Long): Long {
+        return this.fold(value) { acc, decoder ->
+            decoder.decode(acc)
         }
-
-        rangedSeeds = seedsToSoil.decode(rangedSeeds)
-        rangedSeeds = soilsToFertilizer.decode(rangedSeeds)
-        rangedSeeds = fertilizerToWater.decode(rangedSeeds)
-        rangedSeeds = waterToLight.decode(rangedSeeds)
-        rangedSeeds = lightToTemperature.decode(rangedSeeds)
-        rangedSeeds = temperatureToHumidity.decode(rangedSeeds)
-        rangedSeeds = humidityToLocation.decode(rangedSeeds)
-
-        return rangedSeeds.minOfOrNull { it.first } ?: -1L
     }
 
+    private fun Decoders.decode(rangedSeeds: List<SeedRange>): List<SeedRange> {
+        return this.fold(rangedSeeds) { acc, decoder ->
+            decoder.decode(acc)
+        }
+    }
 
-    private fun Set<Decoder>.decode(rangedSeeds: List<SeedRange>): List<SeedRange> {
+    private fun Decoder.decode(rangedSeeds: List<SeedRange>): List<SeedRange> {
         val consumedSeeds = mutableListOf<SeedRange>()
         val newSeeds = mutableListOf<SeedRange>()
-        for (decoder in this) {
-            val (from, quantity, _) = decoder
+        for (rangeDecoder in this) {
+            val (from, quantity, _) = rangeDecoder
             for (range in rangedSeeds) {
                 val intersectionMin = maxOf(from, range.first)
                 val intersectionMax = minOf(from + quantity, range.second)
@@ -190,19 +119,19 @@ object Day05 {
                     continue
                 }
                 val consumed = Pair(intersectionMin, intersectionMax)
-                val newSeed = Pair(decoder.decode(intersectionMin), decoder.decode(intersectionMax))
+                val newSeed = Pair(rangeDecoder.decode(intersectionMin), rangeDecoder.decode(intersectionMax))
                 //println("$consumed -> $newSeed")
                 consumedSeeds.add(consumed)
                 newSeeds.add(newSeed)
             }
         }
 
-        val sanitizedConsumedSeeds = consumedSeeds.distinct().sanitizeRanges()
-        val sanitizedRangedSeeds = rangedSeeds.sanitizeRanges()
-        val nonConsumedSeeds = sanitizedRangedSeeds.removeRanges(sanitizedConsumedSeeds)
+        val normalizedConsumedSeeds = consumedSeeds.distinct().normalize()
+        val normalizedRangedSeeds = rangedSeeds.normalize()
+        val nonConsumedSeeds = normalizedRangedSeeds.removeRanges(normalizedConsumedSeeds)
         //nonConsumedSeeds.forEach { println(it) }
         //println("")
-        return (nonConsumedSeeds + newSeeds).sanitizeRanges()
+        return (nonConsumedSeeds + newSeeds).normalize()
     }
 
     fun List<SeedRange>.removeRanges(toRemove: List<SeedRange>): List<SeedRange> {
@@ -216,8 +145,10 @@ object Day05 {
             val range2 = toRemove[pivot2]
 
             if (range1.second < range2.first) {
+                //range1 outside range2 by the left
                 pivot1++
             } else if (range1.first > range2.second) {
+                //range1 outside range2 by the right
                 pivot2++
             } else if (range1.first < range2.first && range1.second <= range2.second) {
                 // range 1 has a remaining part at left
@@ -244,7 +175,7 @@ object Day05 {
         return result
     }
 
-    fun List<SeedRange>.sanitizeRanges(): List<SeedRange> {
+    fun List<SeedRange>.normalize(): List<SeedRange> {
         if (this.isEmpty()) {
             return emptyList()
         }
@@ -257,11 +188,11 @@ object Day05 {
         for (i in 1 until sortedRanges.size) {
             val nextRange = sortedRanges[i]
 
-            currentRange = if (currentRange.second >= (nextRange.first - 1)) {
-                Pair(currentRange.first, maxOf(currentRange.second, nextRange.second))
+            if (currentRange.second >= (nextRange.first - 1)) {
+                currentRange = Pair(currentRange.first, maxOf(currentRange.second, nextRange.second))
             } else {
                 result.add(currentRange)
-                nextRange
+                currentRange = nextRange
             }
         }
 

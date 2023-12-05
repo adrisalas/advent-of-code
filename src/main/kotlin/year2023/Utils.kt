@@ -4,9 +4,14 @@ import java.math.BigInteger
 import java.security.MessageDigest
 import kotlin.io.path.Path
 import kotlin.io.path.readLines
+import kotlin.io.path.readText
 
 fun readInput(name: String): List<String> {
     return Path("src/main/resources/year2023/$name.txt").readLines()
+}
+
+fun readInput2(name: String): String {
+    return Path("src/main/resources/year2023/$name.txt").readText()
 }
 
 fun String.md5(): String {
