@@ -164,13 +164,14 @@ object Day10 {
          * . L - J . <--- Both points are outside
          * . L - 7 . <--- One point will be outside, the other one inside
          */
-        return input.mapIndexed { row, line ->
-            val stack: Stack<Char> = Stack()
-            var insideLoop = false
-            var count = 0
+        return input
+            .map { it.replace('S', realSymbolOfStart) }
+            .mapIndexed { row, line ->
+                val stack: Stack<Char> = Stack()
+                var insideLoop = false
+                var count = 0
 
-            line.replace('S', realSymbolOfStart)
-                .forEachIndexed { column, value ->
+                line.forEachIndexed { column, value ->
                     val isLoopPipe = visited.containsPipeWithPosition(row, column)
                     if (isLoopPipe) {
                         if (value == '|') {
@@ -195,10 +196,10 @@ object Day10 {
                     }
                 }
 
-            count
-        }.sum()
+                count
+            }.sum()
     }
-    
+
     private fun List<String>.getCharOfStart(start: Pipe): Char {
         val (row, column) = start
         var north = false
