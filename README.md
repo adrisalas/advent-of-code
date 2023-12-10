@@ -11,11 +11,11 @@ problem-solving skills, covering a variety of programming languages.
 - [Day03](https://github.com/adrisalas/advent-of-code-kotlin/blob/main/src/main/kotlin/year2023/Day03.kt) ⭐⭐
 - [Day04](https://github.com/adrisalas/advent-of-code-kotlin/blob/main/src/main/kotlin/year2023/Day04.kt) ⭐⭐
 - [Day05](https://github.com/adrisalas/advent-of-code-kotlin/blob/main/src/main/kotlin/year2023/Day05.kt) ⭐⭐ <- Under 60ms execution time!
-- Day06
+- [Day06](https://github.com/adrisalas/advent-of-code-kotlin/blob/main/src/main/kotlin/year2023/Day06.kt) ⭐⭐
 - Day07
-- Day08
+- [Day08](https://github.com/adrisalas/advent-of-code-kotlin/blob/main/src/main/kotlin/year2023/Day08.kt) ⭐⭐
 - Day09
-- Day10
+- [Day10](https://github.com/adrisalas/advent-of-code-kotlin/blob/main/src/main/kotlin/year2023/Day10.kt) ⭐⭐
 - Day11
 - Day12
 - Day13
