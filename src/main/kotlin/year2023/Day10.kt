@@ -173,22 +173,30 @@ object Day10 {
 
                 line.forEachIndexed { column, value ->
                     val isLoopPipe = visited.containsPipeWithPosition(row, column)
-                    if (isLoopPipe) {
-                        if (value == '|') {
+                    when {
+                        isLoopPipe && value == '|' -> {
                             insideLoop = !insideLoop
-                        } else if (value == 'F' || value == 'L') {
+                        }
+
+                        isLoopPipe && (value == 'F' || value == 'L') -> {
                             stack.push(value)
-                        } else if (value == '7') {
+                        }
+
+                        isLoopPipe && value == '7' -> {
                             val prev = stack.pop()
                             if (prev == 'L') {
                                 insideLoop = !insideLoop
                             }
-                        } else if (value == 'J') {
+                        }
+
+                        isLoopPipe && value == 'J' -> {
                             val prev = stack.pop()
                             if (prev == 'F') {
                                 insideLoop = !insideLoop
                             }
                         }
+                    }
+                    if (isLoopPipe) {
                         return@forEachIndexed
                     }
                     if (insideLoop) {
@@ -202,43 +210,26 @@ object Day10 {
 
     private fun List<String>.getCharOfStart(start: Pipe): Char {
         val (row, column) = start
-        var north = false
-        var south = false
-        var east = false
-        var west = false
 
         val charAtNorth = this.getElementAt(row - 1, column)
-        if (charAtNorth.isLookingSouth()) {
-            north = true
-        }
+        val north = charAtNorth.isLookingSouth()
 
         val charAtSouth = this.getElementAt(row + 1, column)
-        if (charAtSouth.isLookingNorth()) {
-            south = true
-        }
+        val south = charAtSouth.isLookingNorth()
 
         val charAtWest = this.getElementAt(row, column - 1)
-        if (charAtWest.isLookingEast()) {
-            west = true
-        }
+        val west = charAtWest.isLookingEast()
 
         val charAtEast = this.getElementAt(row, column + 1)
-        if (charAtEast.isLookingWest()) {
-            east = true
-        }
+        val east = charAtEast.isLookingWest()
 
-        return if (north && south) {
-            '|'
-        } else if (north && east) {
-            'L'
-        } else if (north && west) {
-            'J'
-        } else if (south && west) {
-            '7'
-        } else if (south && east) {
-            'F'
-        } else {
-            '-'
+        return when {
+            north && south -> '|'
+            north && east -> 'L'
+            north && west -> 'J'
+            south && west -> '7'
+            south && east -> 'F'
+            else -> '-'
         }
     }
 
