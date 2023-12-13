@@ -6,6 +6,9 @@ import kotlin.io.path.Path
 import kotlin.io.path.readLines
 import kotlin.io.path.readText
 
+val NEW_LINE_REGEX = "\r?\n".toRegex()
+val DOUBLE_NEW_LINE_REGEX = "(\r)?\n(\r)?\n".toRegex()
+
 fun readInput(name: String): List<String> {
     return Path("src/main/resources/year2023/$name.txt").readLines()
 }

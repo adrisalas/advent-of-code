@@ -13,9 +13,6 @@ private typealias Decoders = List<Decoder>
 private data class RangeDecoder(val from: Long, val quantity: Long, val to: Long)
 
 object Day05 {
-    private val NEW_LINE_REGEX = "\r?\n".toRegex()
-    private val DOUBLE_NEW_LINE_REGEX = "(\r)?\n(\r)?\n".toRegex()
-
     fun part1(input: String): Long {
         val inputChunks = input.split(DOUBLE_NEW_LINE_REGEX)
         val seeds = inputChunks[0]
