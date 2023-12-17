@@ -5,7 +5,7 @@ import kotlin.test.Test
 
 class Day17Test {
 
-    val inputTest = listOf(
+    private val inputTest = listOf(
         "2413432311323",
         "3215453535623",
         "3255245654254",

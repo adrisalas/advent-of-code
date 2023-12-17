@@ -31,6 +31,20 @@ object Day17 {
         )
     }
 
+    private enum class Direction { UP, DOWN, LEFT, RIGHT }
+
+    private data class Location(val row: Int, val column: Int, val direction: Direction)
+
+    private data class LocationWithCost(val location: Location, val heatLost: Int = 0) : Comparable<LocationWithCost> {
+        val row = location.row
+        val column = location.column
+        val direction = location.direction
+
+        override fun compareTo(other: LocationWithCost): Int {
+            return heatLost compareTo other.heatLost
+        }
+    }
+
     private fun List<List<Int>>.findMinHeatLoss(minSteps: Int, maxSteps: Int): Int {
         val endRow = this.lastIndex
         val endColumn = this.first().lastIndex
@@ -58,75 +72,13 @@ object Day17 {
 
             when (current.direction) {
                 UP, DOWN -> {
-                    //LEFT
-                    (minSteps..maxSteps)
-                        .filter { (current.column - it) >= 0 }
-                        .forEach { steps ->
-                            val heatLost = (1..steps)
-                                .fold(current.heatLost) { acc, i ->
-                                    acc + this[current.row][current.column - i]
-                                }
-                            val location = LocationWithCost(
-                                Location(current.row, current.column - steps, LEFT),
-                                heatLost
-                            )
-                            if (!visited.contains(location.location)) {
-                                toVisit.add(location)
-                            }
-                        }
-                    //RIGHT
-                    (minSteps..maxSteps)
-                        .filter { (current.column + it) <= endColumn }
-                        .forEach { steps ->
-                            val heatLost = (1..steps)
-                                .fold(current.heatLost) { acc, i ->
-                                    acc + this[current.row][current.column + i]
-                                }
-
-                            val location = LocationWithCost(
-                                Location(current.row, current.column + steps, RIGHT),
-                                heatLost
-                            )
-                            if (!visited.contains(location.location)) {
-                                toVisit.add(location)
-                            }
-                        }
+                    leftMovements(minSteps, maxSteps, current, visited, toVisit)
+                    rightMovements(minSteps, maxSteps, current, endColumn, visited, toVisit)
                 }
 
                 LEFT, RIGHT -> {
-                    //UP
-                    (minSteps..maxSteps)
-                        .filter { (current.row - it) >= 0 }
-                        .forEach { steps ->
-                            val heatLost = (1..steps)
-                                .fold(current.heatLost) { acc, i ->
-                                    acc + this[current.row - i][current.column]
-                                }
-                            val location = LocationWithCost(
-                                Location(current.row - steps, current.column, UP),
-                                heatLost
-                            )
-                            if (!visited.contains(location.location)) {
-                                toVisit.add(location)
-                            }
-                        }
-                    //DOWN
-                    (minSteps..maxSteps)
-                        .filter { (current.row + it) <= endRow }
-                        .forEach { steps ->
-                            val heatLost = (1..steps)
-                                .fold(current.heatLost) { acc, i ->
-                                    acc + this[current.row + i][current.column]
-                                }
-
-                            val location = LocationWithCost(
-                                Location(current.row + steps, current.column, DOWN),
-                                heatLost
-                            )
-                            if (!visited.contains(location.location)) {
-                                toVisit.add(location)
-                            }
-                        }
+                    upMovements(minSteps, maxSteps, current, visited, toVisit)
+                    downMovements(minSteps, maxSteps, current, endRow, visited, toVisit)
                 }
             }
         }
@@ -134,18 +86,104 @@ object Day17 {
         return -1
     }
 
-    private enum class Direction { UP, DOWN, LEFT, RIGHT }
+    private fun List<List<Int>>.downMovements(
+        minSteps: Int,
+        maxSteps: Int,
+        current: LocationWithCost,
+        endRow: Int,
+        visited: MutableMap<Location, Int>,
+        toVisit: PriorityQueue<LocationWithCost>
+    ) {
+        (minSteps..maxSteps)
+            .filter { (current.row + it) <= endRow }
+            .forEach { steps ->
+                val heatLost = (1..steps)
+                    .fold(current.heatLost) { acc, i ->
+                        acc + this[current.row + i][current.column]
+                    }
 
-    private data class Location(val row: Int, val column: Int, val direction: Direction)
+                val location = LocationWithCost(
+                    Location(current.row + steps, current.column, DOWN),
+                    heatLost
+                )
+                if (!visited.contains(location.location)) {
+                    toVisit.add(location)
+                }
+            }
+    }
 
-    private data class LocationWithCost(val location: Location, val heatLost: Int = 0) : Comparable<LocationWithCost> {
-        val row = location.row
-        val column = location.column
-        val direction = location.direction
+    private fun List<List<Int>>.upMovements(
+        minSteps: Int,
+        maxSteps: Int,
+        current: LocationWithCost,
+        visited: MutableMap<Location, Int>,
+        toVisit: PriorityQueue<LocationWithCost>
+    ) {
+        (minSteps..maxSteps)
+            .filter { (current.row - it) >= 0 }
+            .forEach { steps ->
+                val heatLost = (1..steps)
+                    .fold(current.heatLost) { acc, i ->
+                        acc + this[current.row - i][current.column]
+                    }
+                val location = LocationWithCost(
+                    Location(current.row - steps, current.column, UP),
+                    heatLost
+                )
+                if (!visited.contains(location.location)) {
+                    toVisit.add(location)
+                }
+            }
+    }
 
-        override fun compareTo(other: LocationWithCost): Int {
-            return heatLost compareTo other.heatLost
-        }
+    private fun List<List<Int>>.rightMovements(
+        minSteps: Int,
+        maxSteps: Int,
+        current: LocationWithCost,
+        endColumn: Int,
+        visited: MutableMap<Location, Int>,
+        toVisit: PriorityQueue<LocationWithCost>
+    ) {
+        (minSteps..maxSteps)
+            .filter { (current.column + it) <= endColumn }
+            .forEach { steps ->
+                val heatLost = (1..steps)
+                    .fold(current.heatLost) { acc, i ->
+                        acc + this[current.row][current.column + i]
+                    }
+
+                val location = LocationWithCost(
+                    Location(current.row, current.column + steps, RIGHT),
+                    heatLost
+                )
+                if (!visited.contains(location.location)) {
+                    toVisit.add(location)
+                }
+            }
+    }
+
+    private fun List<List<Int>>.leftMovements(
+        minSteps: Int,
+        maxSteps: Int,
+        current: LocationWithCost,
+        visited: MutableMap<Location, Int>,
+        toVisit: PriorityQueue<LocationWithCost>
+    ) {
+        (minSteps..maxSteps)
+            .filter { (current.column - it) >= 0 }
+            .forEach { steps ->
+                val heatLost = (1..steps)
+                    .fold(current.heatLost) { acc, i ->
+                        acc + this[current.row][current.column - i]
+                    }
+                val location = LocationWithCost(
+                    Location(current.row, current.column - steps, LEFT),
+                    heatLost
+                )
+                if (!visited.contains(location.location)) {
+                    toVisit.add(location)
+                }
+            }
     }
 }
 
