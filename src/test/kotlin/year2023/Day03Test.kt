@@ -5,16 +5,29 @@ import kotlin.test.Test
 
 class Day03Test {
 
+    private val input = listOf(
+        "467..114..",
+        "...*......",
+        "..35..633.",
+        "......#...",
+        "617*......",
+        ".....+.58.",
+        "..592.....",
+        "......755.",
+        "...\$.*....",
+        ".664.598.."
+    )
+
     @Test
     fun part1() {
-        val output = Day03.part1(readInput("Day03"))
+        val output = Day03.part1(input)
 
         assertEquals(4361, output)
     }
 
     @Test
     fun part2() {
-        val output = Day03.part2(readInput("Day03"))
+        val output = Day03.part2(input)
 
         assertEquals(467835, output)
     }
@@ -33,7 +46,7 @@ class Day03Test {
 
     @Test
     fun findPointAtDot() {
-        val matrix = Day03.encapsulateMatrixWithDots(readInput("Day03"))
+        val matrix = Day03.encapsulateMatrixWithDots(input)
 
         val point = Day03.findPointAt(matrix, 0, 0)
 
@@ -43,7 +56,7 @@ class Day03Test {
 
     @Test
     fun findPointAtSymbol() {
-        val matrix = Day03.encapsulateMatrixWithDots(readInput("Day03"))
+        val matrix = Day03.encapsulateMatrixWithDots(input)
         val row = 2
         val column = 4
 
@@ -55,7 +68,7 @@ class Day03Test {
 
     @Test
     fun findPointAtNumber() {
-        val matrix = Day03.encapsulateMatrixWithDots(readInput("Day03"))
+        val matrix = Day03.encapsulateMatrixWithDots(input)
         val row = 1
         val column = 1
 

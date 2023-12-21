@@ -6,7 +6,7 @@ import kotlin.test.Test
 class Day10Test {
     @Test
     fun `Part 1, example 1`() {
-        val fileContent = listOf(
+        val input = listOf(
             ".....",
             ".S-7.",
             ".|.|.",
@@ -14,14 +14,14 @@ class Day10Test {
             "....."
         )
 
-        val output = Day10.part1(fileContent)
+        val output = Day10.part1(input)
 
         assertEquals(4, output)
     }
 
     @Test
     fun `Part 1, example 2`() {
-        val fileContent = listOf(
+        val input = listOf(
             "..F7.",
             ".FJ|.",
             "SJ.L7",
@@ -29,14 +29,14 @@ class Day10Test {
             "LJ..."
         )
 
-        val output = Day10.part1(fileContent)
+        val output = Day10.part1(input)
 
         assertEquals(8, output)
     }
 
     @Test
     fun `Part 2, example 1`() {
-        val fileContent = listOf(
+        val input = listOf(
             "...........",
             ".S-------7.",
             ".|F-----7|.",
@@ -48,14 +48,14 @@ class Day10Test {
             "..........."
         )
 
-        val output = Day10.part2(fileContent)
+        val output = Day10.part2(input)
 
         assertEquals(4, output)
     }
 
     @Test
     fun `Part 2, example 2`() {
-        val fileContent = listOf(
+        val input = listOf(
             "FF7FSF7F7F7F7F7F---7",
             "L|LJ||||||||||||F--J",
             "FL-7LJLJ||||||LJL-77",
@@ -68,7 +68,7 @@ class Day10Test {
             "L7JLJL-JLJLJL--JLJ.L"
         )
 
-        val output = Day10.part2(fileContent)
+        val output = Day10.part2(input)
 
         assertEquals(10, output)
     }
