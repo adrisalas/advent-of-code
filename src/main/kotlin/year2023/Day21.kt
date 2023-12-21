@@ -56,7 +56,7 @@ object Day21 {
     private fun List<String>.gardenPlotsReached(steps: Int): Int {
         val start = this.getStartingPoint()
         var reached = setOf(start)
-        (1..steps)
+        
         (1..steps).forEach { _ ->
             reached = reached.flatMap { pointReached ->
                 pointReached.neighbours().filter { neighbour ->
