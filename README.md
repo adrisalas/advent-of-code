@@ -29,7 +29,7 @@ problem-solving skills, covering a variety of programming languages.
 - Day20
 - [Day21](https://github.com/adrisalas/advent-of-code-kotlin/blob/main/src/main/kotlin/year2023/Day21.kt) ⭐⭐
 - [Day22](https://github.com/adrisalas/advent-of-code-kotlin/blob/main/src/main/kotlin/year2023/Day22.kt) ⭐⭐
-- Day23
+- [Day23](https://github.com/adrisalas/advent-of-code-kotlin/blob/main/src/main/kotlin/year2023/Day23.kt) ⭐⭐
 - Day24
 - Day25
 
