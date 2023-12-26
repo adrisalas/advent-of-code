@@ -31,8 +31,9 @@ problem-solving skills, covering a variety of programming languages.
 - [Day22](https://github.com/adrisalas/advent-of-code-kotlin/blob/main/src/main/kotlin/year2023/Day22.kt) ⭐⭐
 - [Day23](https://github.com/adrisalas/advent-of-code-kotlin/blob/main/src/main/kotlin/year2023/Day23.kt) ⭐⭐
 - [Day24](https://github.com/adrisalas/advent-of-code-kotlin/blob/main/src/main/kotlin/year2023/Day24.kt) ⭐⭐ <-- 2nd
-  part in Python
-- Day25
+  part in Python (Z3)
+- [Day25](https://github.com/adrisalas/advent-of-code-kotlin/blob/main/src/main/kotlin/year2023/Day25.kt) ⭐⭐ <-- Done in
+  Python (networkx)
 
 <hr>
 
