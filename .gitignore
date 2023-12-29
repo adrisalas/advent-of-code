@@ -1,4 +1,5 @@
-.gradle
 .idea
-build
-src/**/*.txt
+kotlin/.gradle
+kotlin/.idea
+kotlin/build
+kotlin/src/**/*.txt
