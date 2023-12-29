@@ -26,3 +26,18 @@ fun String.md5(): String {
 fun Any?.println() {
     println(this)
 }
+
+fun gcd(a: Long, b: Long): Long {
+    if (a != 0L) {
+        return gcd(b % a, a)
+    }
+    return b
+}
+
+fun lcm(a: Long, b: Long): Long {
+    return (a * b) / gcd(a, b)
+}
+
+fun Collection<Long>.lcm(): Long {
+    return this.reduce { a, b -> lcm(a, b) }
+}
