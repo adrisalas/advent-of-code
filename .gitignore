@@ -3,4 +3,5 @@ kotlin/.gradle
 kotlin/.idea
 kotlin/build
 kotlin/src/**/*.txt
+golang/**/*.txt
 .DS_Store
