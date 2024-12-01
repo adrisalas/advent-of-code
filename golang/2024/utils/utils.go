@@ -38,3 +38,10 @@ func ReadFileToIntMatrix(filename string) [][]int {
 	}
 	return matrix
 }
+
+func Abs(x int) int {
+	if x < 0 {
+		return -x
+	}
+	return x
+}

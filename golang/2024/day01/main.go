@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"math"
 	"sort"
 
 	"github.com/adrisalas/advent-of-code/golang/2024/utils"
@@ -16,40 +15,40 @@ func main() {
 }
 
 func part1(lines [][]int) int {
-	var leftList []int
-	var rightList []int
+	left, right := getTheTwoSlices(lines)
 
-	for _, line := range lines {
-		leftList = append(leftList, line[0])
-		rightList = append(rightList, line[1])
-	}
-
-	sort.Ints(leftList)
-	sort.Ints(rightList)
+	sort.Ints(left)
+	sort.Ints(right)
 
 	sum := 0
-	for i, num := range leftList {
-		sum += int(math.Abs(float64(num) - float64(rightList[i])))
+	for i := range left {
+		sum += utils.Abs(left[i] - right[i])
 	}
 	return sum
 }
 
-func part2(lines [][]int) int {
-	var leftList []int
-	var rightList []int
+func getTheTwoSlices(lines [][]int) ([]int, []int) {
+	var left []int
+	var right []int
 
 	for _, line := range lines {
-		leftList = append(leftList, line[0])
-		rightList = append(rightList, line[1])
+		left = append(left, line[0])
+		right = append(right, line[1])
 	}
 
+	return left, right
+}
+
+func part2(lines [][]int) int {
+	left, right := getTheTwoSlices(lines)
+
 	score := make(map[int]int)
-	for _, num := range rightList {
+	for _, num := range right {
 		score[num]++
 	}
 
 	sum := 0
-	for _, num := range leftList {
+	for _, num := range left {
 		sum += num * score[num]
 	}
 
