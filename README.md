@@ -8,7 +8,7 @@ problem-solving skills, covering a variety of programming languages.
 
 | Year                                                                                          | Language | Stars | Completion |
 | --------------------------------------------------------------------------------------------- | :------- | ----- | ---------- |
-| [2024](https://github.com/adrisalas/advent-of-code/tree/main/golang/2024)                     | Go       | 0 ⭐  | 0%         |
+| [2024](https://github.com/adrisalas/advent-of-code/tree/main/golang/2024)                     | Go       | 2 ⭐  | 4%         |
 | [2023](https://github.com/adrisalas/advent-of-code/tree/main/kotlin/src/main/kotlin/year2023) | Kotlin   | 50 ⭐ | 100%       |
 | 2022                                                                                          |          | 0 ⭐  | 0%         |
 | [2021](https://github.com/adrisalas/advent-of-code/tree/main/kotlin/src/main/kotlin/year2021) | Kotlin   | 18 ⭐ | 36%        |
