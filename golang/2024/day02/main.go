@@ -58,8 +58,7 @@ func part2(reports [][]int) int {
 
 func isValidWithTolerance1(levels []int) bool {
 	for i := 0; i < len(levels); i++ {
-		levelsWithoutI := append([]int{}, levels[:i]...)
-		levelsWithoutI = append(levelsWithoutI, levels[i+1:]...)
+		levelsWithoutI := utils.RemoveElement(levels, i)
 		if isValid(levelsWithoutI) {
 			return true
 		}

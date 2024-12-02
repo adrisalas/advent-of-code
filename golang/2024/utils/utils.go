@@ -45,3 +45,14 @@ func Abs(x int) int {
 	}
 	return x
 }
+
+// Notice this method is not efficient to remove an element
+func RemoveElement[E any](slice []E, index int) []E {
+	if index < 0 || index >= len(slice) {
+		return slice
+	}
+	newSlice := make([]E, 0, len(slice)-1)
+	newSlice = append(newSlice, slice[:index]...)
+	newSlice = append(newSlice, slice[index+1:]...)
+	return newSlice
+}
