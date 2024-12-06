@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"slices"
 	"strconv"
 	"strings"
 
@@ -18,24 +19,8 @@ func main() {
 func part1(text string) int {
 	parts := strings.Split(text, "\n\n")
 
-	order := make(map[int][]int)
-
-	for _, line := range strings.Split(parts[0], "\n") {
-		parts := strings.Split(line, "|")
-		x1, _ := strconv.Atoi(parts[0])
-		x2, _ := strconv.Atoi(parts[1])
-		order[x1] = append(order[x1], x2)
-	}
-
-	var print [][]int
-	for _, line := range strings.Split(parts[1], "\n") {
-		var nums []int
-		for _, s := range strings.Split(line, ",") {
-			n, _ := strconv.Atoi(s)
-			nums = append(nums, n)
-		}
-		print = append(print, nums)
-	}
+	order := getOrder(parts)
+	print := getPrint(parts)
 
 	count := 0
 
@@ -48,25 +33,7 @@ func part1(text string) int {
 	return count
 }
 
-// brute force
-func isInRightOrder(pages []int, order map[int][]int) bool {
-	for i := len(pages) - 1; i >= 0; i-- {
-		pagesAfter := order[pages[i]]
-		for j := 0; j < i; j++ {
-			p := pages[j]
-			for _, b := range pagesAfter {
-				if p == b {
-					return false
-				}
-			}
-		}
-	}
-	return true
-}
-
-func part2(text string) int {
-	parts := strings.Split(text, "\n\n")
-
+func getOrder(parts []string) map[int][]int {
 	order := make(map[int][]int)
 
 	for _, line := range strings.Split(parts[0], "\n") {
@@ -75,7 +42,10 @@ func part2(text string) int {
 		x2, _ := strconv.Atoi(parts[1])
 		order[x1] = append(order[x1], x2)
 	}
+	return order
+}
 
+func getPrint(parts []string) [][]int {
 	var print [][]int
 	for _, line := range strings.Split(parts[1], "\n") {
 		var nums []int
@@ -85,12 +55,39 @@ func part2(text string) int {
 		}
 		print = append(print, nums)
 	}
+	return print
+}
+
+// brute force
+func isInRightOrder(pages []int, order map[int][]int) bool {
+	seen := make(map[int]bool)
+
+	for i := 0; i < len(pages); i++ {
+		p := pages[i]
+		seen[p] = true
+
+		for _, pageAfter := range order[p] {
+			if _, ok := seen[pageAfter]; ok {
+				return false
+			}
+		}
+	}
+	return true
+}
+
+func part2(text string) int {
+	parts := strings.Split(text, "\n\n")
+
+	order := getOrder(parts)
+	print := getPrint(parts)
 
 	count := 0
+	comparator := customComparator(order)
 
 	for _, p := range print {
 		if !isInRightOrder(p, order) {
-			p := orderPages(p, order)
+			slices.SortFunc(p, comparator)
+
 			count += p[len(p)/2]
 		}
 	}
@@ -98,22 +95,14 @@ func part2(text string) int {
 	return count
 }
 
-// Notice original pages is modified
-func orderPages(pages []int, order map[int][]int) []int {
-	for !isInRightOrder(pages, order) {
-		for i := len(pages) - 1; i >= 0; i-- {
-			pagesAfter := order[pages[i]]
-			for j := 0; j < i; j++ {
-				p := pages[j]
-				for _, b := range pagesAfter {
-					if p == b {
-						pages[i], pages[j] = pages[j], pages[i]
-						break
-					}
-				}
-			}
+func customComparator(order map[int][]int) func(a int, b int) int {
+	return func(a int, b int) int {
+		if slices.Contains(order[a], b) {
+			return -1
 		}
+		if slices.Contains(order[b], a) {
+			return 1
+		}
+		return 0
 	}
-
-	return pages
 }
