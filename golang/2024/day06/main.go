@@ -31,7 +31,7 @@ const (
 func part1(lines []string) int {
 	startPos := getStartingPos(lines)
 
-	visited := walkNodes(startPos, lines)
+	visited := walkNodes(lines, startPos)
 
 	return len(visited)
 }
@@ -54,7 +54,7 @@ func getStartingPos(lines []string) Pos {
 	return startPos
 }
 
-func walkNodes(startPos Pos, lines []string) []Pos {
+func walkNodes(lines []string, startPos Pos) []Pos {
 	var visited []Pos
 	visited = append(visited, startPos)
 	current := startPos
@@ -95,11 +95,15 @@ func walkNodes(startPos Pos, lines []string) []Pos {
 }
 
 func part2(lines []string) int {
+	var runeSlice [][]rune
+	for _, line := range lines {
+		runeSlice = append(runeSlice, []rune(line))
+	}
+
 	startPos := getStartingPos(lines)
-	wouldThereBeALoop := loopChecker(lines, startPos)
 	possiblePositions := 0
 
-	for row, line := range lines {
+	for row, line := range runeSlice {
 		for col, c := range line {
 			obstruction := Pos{row, col}
 
@@ -107,9 +111,12 @@ func part2(lines []string) int {
 				continue
 			}
 
-			if wouldThereBeALoop(obstruction) {
+			runeSlice[row][col] = '#'
+
+			if isThereALoop(runeSlice, startPos) {
 				possiblePositions++
 			}
+			runeSlice[row][col] = '.'
 		}
 	}
 
@@ -121,49 +128,47 @@ type PosWithDirection struct {
 	diretion Direction
 }
 
-func loopChecker(lines []string, startPos Pos) func(obstruction Pos) bool {
-	return func(obstruction Pos) bool {
-		visited := make(map[PosWithDirection]bool)
-		current := PosWithDirection{startPos, UP}
+func isThereALoop(lines [][]rune, startPos Pos) bool {
+	visited := make(map[PosWithDirection]bool)
+	current := PosWithDirection{startPos, UP}
 
-		for current.pos.row != 0 &&
-			current.pos.row != len(lines)-1 &&
-			current.pos.col != 0 &&
-			current.pos.col != len(lines[0])-1 {
+	for current.pos.row != 0 &&
+		current.pos.row != len(lines)-1 &&
+		current.pos.col != 0 &&
+		current.pos.col != len(lines[0])-1 {
 
-			row := current.pos.row
-			col := current.pos.col
-			switch current.diretion {
-			case UP:
-				if lines[row-1][col] == '#' || (row-1 == obstruction.row && col == obstruction.col) {
-					current = PosWithDirection{Pos{row, col}, RIGHT}
-				} else {
-					current = PosWithDirection{Pos{row - 1, col}, UP}
-				}
-			case RIGHT:
-				if lines[row][col+1] == '#' || (row == obstruction.row && col+1 == obstruction.col) {
-					current = PosWithDirection{Pos{row, col}, DOWN}
-				} else {
-					current = PosWithDirection{Pos{row, col + 1}, RIGHT}
-				}
-			case DOWN:
-				if lines[row+1][col] == '#' || (row+1 == obstruction.row && col == obstruction.col) {
-					current = PosWithDirection{Pos{row, col}, LEFT}
-				} else {
-					current = PosWithDirection{Pos{row + 1, col}, DOWN}
-				}
-			case LEFT:
-				if lines[row][col-1] == '#' || (row == obstruction.row && col-1 == obstruction.col) {
-					current = PosWithDirection{Pos{row, col}, UP}
-				} else {
-					current = PosWithDirection{Pos{row, col - 1}, LEFT}
-				}
+		row := current.pos.row
+		col := current.pos.col
+		switch current.diretion {
+		case UP:
+			if lines[row-1][col] == '#' {
+				current = PosWithDirection{Pos{row, col}, RIGHT}
+			} else {
+				current = PosWithDirection{Pos{row - 1, col}, UP}
 			}
-			if visited[current] {
-				return true
+		case RIGHT:
+			if lines[row][col+1] == '#' {
+				current = PosWithDirection{Pos{row, col}, DOWN}
+			} else {
+				current = PosWithDirection{Pos{row, col + 1}, RIGHT}
 			}
-			visited[current] = true
+		case DOWN:
+			if lines[row+1][col] == '#' {
+				current = PosWithDirection{Pos{row, col}, LEFT}
+			} else {
+				current = PosWithDirection{Pos{row + 1, col}, DOWN}
+			}
+		case LEFT:
+			if lines[row][col-1] == '#' {
+				current = PosWithDirection{Pos{row, col}, UP}
+			} else {
+				current = PosWithDirection{Pos{row, col - 1}, LEFT}
+			}
 		}
-		return false
+		if visited[current] {
+			return true
+		}
+		visited[current] = true
 	}
+	return false
 }
