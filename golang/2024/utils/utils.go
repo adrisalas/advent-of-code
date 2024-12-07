@@ -1,9 +1,11 @@
 package utils
 
 import (
+	"fmt"
 	"os"
 	"strconv"
 	"strings"
+	"time"
 )
 
 func ReadFileToString(filename string) string {
@@ -55,4 +57,8 @@ func RemoveElement[E any](slice []E, index int) []E {
 	newSlice = append(newSlice, slice[:index]...)
 	newSlice = append(newSlice, slice[index+1:]...)
 	return newSlice
+}
+
+func PrintTimeTook(beginning time.Time) {
+	fmt.Printf("Took: %fs\n", time.Since(beginning).Seconds())
 }

@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"time"
 
 	"github.com/adrisalas/advent-of-code/golang/2024/utils"
 )
@@ -9,8 +10,11 @@ import (
 func main() {
 	reports := utils.ReadFileToIntMatrix("day02")
 
-	fmt.Println(part1(reports))
-	fmt.Println(part2(reports))
+	start := time.Now()
+	fmt.Printf("Part1: %d\n", part1(reports))
+	utils.PrintTimeTook(start)
+	fmt.Printf("Part2: %d\n", part2(reports))
+	utils.PrintTimeTook(start)
 }
 
 func part1(reports [][]int) int {

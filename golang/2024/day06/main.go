@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"slices"
+	"time"
 
 	"github.com/adrisalas/advent-of-code/golang/2024/utils"
 )
@@ -10,8 +11,11 @@ import (
 func main() {
 	lines := utils.ReadFileToStringSlice("day06")
 
-	fmt.Println(part1(lines))
-	fmt.Println(part2(lines))
+	start := time.Now()
+	fmt.Printf("Part1: %d\n", part1(lines))
+	utils.PrintTimeTook(start)
+	fmt.Printf("Part2: %d\n", part2(lines))
+	utils.PrintTimeTook(start)
 }
 
 type Pos struct {
