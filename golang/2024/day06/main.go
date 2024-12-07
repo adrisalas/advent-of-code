@@ -102,22 +102,19 @@ func part2(lines []string) int {
 
 	startPos := getStartingPos(lines)
 	possiblePositions := 0
+	path := walkNodes(lines, startPos)
 
-	for row, line := range runeSlice {
-		for col, c := range line {
-			obstruction := Pos{row, col}
-
-			if c == '#' || obstruction == startPos {
-				continue
-			}
-
-			runeSlice[row][col] = '#'
-
-			if isThereALoop(runeSlice, startPos) {
-				possiblePositions++
-			}
-			runeSlice[row][col] = '.'
+	for _, obstruction := range path {
+		if obstruction == startPos {
+			continue
 		}
+
+		runeSlice[obstruction.row][obstruction.col] = '#'
+
+		if isThereALoop(runeSlice, startPos) {
+			possiblePositions++
+		}
+		runeSlice[obstruction.row][obstruction.col] = '.'
 	}
 
 	return possiblePositions
