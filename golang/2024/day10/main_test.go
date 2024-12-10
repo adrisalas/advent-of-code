@@ -35,7 +35,7 @@ func Test_part2(t *testing.T) {
 		{0, 1, 3, 2, 9, 8, 0, 1},
 		{1, 0, 4, 5, 6, 7, 3, 2},
 	}
-	want := 0
+	want := 81
 
 	got := part2(input)
 
